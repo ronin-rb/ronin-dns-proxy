@@ -28,6 +28,11 @@ begin
 
       transaction.respond!(names)
     }
+
+    # return MX records
+    server.add_rule :MX, 'example.com', ->(type,name,transaction) {
+      transaction.respond!(10, Resolv::DNS::Name.create('email.evil.com' ))
+    }
   end
 rescue Interrupt
   exit(127)

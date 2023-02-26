@@ -49,6 +49,11 @@ Ronin::DNS::Proxy.run('127.0.0.1', 2346) do |server|
 
     transaction.respond!(names)
   }
+
+  # return MX records
+  server.add_rule :MX, 'example.com', ->(type,name,transaction) {
+    transaction.respond!(10, Resolv::DNS::Name.create('email.evil.com' ))
+  }
 end
 ```
 
