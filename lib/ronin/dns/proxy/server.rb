@@ -115,7 +115,7 @@ module Ronin
         #   server.add_rule :A, 'updates.example.com', :ServFail
         #
         # @example match a query using a regex:
-        #   server.add_rule :TXT, /^spf\./', "v=spf1 include:10.0.0.1 ~all"
+        #   server.add_rule :TXT, /^spf\./, "v=spf1 include:10.0.0.1 ~all"
         #
         # @example define a dynamic rule:
         #   server.add_rule :CNAME, /^www\./, ->(type,name,transaction) {
