@@ -44,7 +44,10 @@ Ronin::DNS::Proxy.run('127.0.0.1', 2346) do |server|
 
   # define a dynamic rule
   server.add_rule :CNAME, /^www\./, ->(type,name,transaction) {
-    name.sub('www.','')
+    # append '.hax' to the domain name
+    names = name.split('.').push('hax')
+
+    transaction.respond!(names)
   }
 end
 ```

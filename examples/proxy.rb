@@ -23,7 +23,10 @@ begin
 
     # define a dynamic rule
     server.add_rule :CNAME, /^www\./, ->(type,name,transaction) {
-      name.sub('www.','')
+      # append '.hax' to the domain name
+      names = name.split('.').push('hax')
+
+      transaction.respond!(names)
     }
   end
 rescue Interrupt
