@@ -40,7 +40,7 @@ module Ronin
 
         # The result to return.
         #
-        # @return [String, Symbol, #call]
+        # @return [String, Array<String>, Symbol, #call]
         attr_reader :result
 
         #
@@ -52,7 +52,7 @@ module Ronin
         # @param [String, Regexp] name
         #   The rule's name to match.
         #
-        # @param [String, Array<String>, Symbol] result
+        # @param [String, Array<String>, Symbol, #call] result
         #   The result to return.
         #
         def initialize(type,name,result)
