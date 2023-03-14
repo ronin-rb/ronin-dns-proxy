@@ -24,6 +24,7 @@ DNS nameserver.
 * Supports dynamic DNS server rules.
 * Passing through all other DNS queries.
 * Has 95% documentation coverage.
+* Has 100% test coverage.
 
 ## Examples
 
