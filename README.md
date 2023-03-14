@@ -23,6 +23,7 @@ DNS nameserver.
 * Supports matching queries with regular expressions.
 * Supports dynamic DNS server rules.
 * Passing through all other DNS queries.
+* Has 95% documentation coverage.
 
 ## Examples
 
