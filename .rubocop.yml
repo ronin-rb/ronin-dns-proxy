@@ -11,4 +11,4 @@ inherit_gem:
 #
 Style/CaseEquality:
   Exclude:
-    - 'ib/ronin/dns/proxy/rule.rb'
+    - 'lib/ronin/dns/proxy/rule.rb'
