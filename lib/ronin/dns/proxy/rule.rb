@@ -74,7 +74,7 @@ module Ronin
         #   Indicates whether the rule matches the query.
         #
         def matches?(query_type,query_name)
-          (@type == query_type) && !query_name.match(@name).nil?
+          (@type == query_type) && (@name === query_name)
         end
 
         #
