@@ -18,7 +18,6 @@
 # along with ronin-dns-proxy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'bundler/setup'
 require 'async/dns'
 require 'ronin/dns/proxy/rule'
 require 'ronin/support/network/dns'
