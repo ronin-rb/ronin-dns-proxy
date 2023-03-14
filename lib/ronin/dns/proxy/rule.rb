@@ -94,7 +94,7 @@ module Ronin
           if @result.respond_to?(:call)
             @result.call(query_type,query_name,transaction)
           elsif @result.kind_of?(Symbol)
-            transaction.fail!(@resul)
+            transaction.fail!(@result)
           elsif @result
             transaction.respond!(@result)
           end
