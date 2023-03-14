@@ -31,6 +31,16 @@ module Ronin
       #
       class Server < Async::DNS::Server
 
+        # The upstream DNS resolver.
+        #
+        # @return [Async::DNS::Resolver]
+        attr_reader :resolver
+
+        # The defined rules for the proxy server.
+        #
+        # @return [Array<Rule>]
+        attr_reader :rules
+
         #
         # Initializes the DNS server.
         #
