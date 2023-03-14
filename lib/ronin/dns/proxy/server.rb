@@ -18,9 +18,10 @@
 # along with ronin-dns-proxy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'async/dns'
 require 'ronin/dns/proxy/rule'
 require 'ronin/support/network/dns'
+
+require 'async/dns'
 
 module Ronin
   module DNS
