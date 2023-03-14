@@ -31,6 +31,16 @@ module Ronin
       #
       class Server < Async::DNS::Server
 
+        # The host the server will listen on.
+        #
+        # @return [String]
+        attr_reader :host
+
+        # The port the server will listen on.
+        #
+        # @return [Integer]
+        attr_reader :port
+
         # The upstream DNS resolver.
         #
         # @return [Async::DNS::Resolver]
@@ -74,6 +84,9 @@ module Ronin
         #
         def initialize(host,port, nameservers: Ronin::Support::Network::DNS.nameservers,
                                   rules: nil)
+          @host = host
+          @port = port
+
           super([[:udp, host, port]])
 
           @resolver = Async::DNS::Resolver.new(
