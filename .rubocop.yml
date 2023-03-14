@@ -9,3 +9,6 @@ inherit_gem:
 #
 # ronin-dns-proxy specific exceptions
 #
+Style/CaseEquality:
+  Exclude:
+    - 'ib/ronin/dns/proxy/rule.rb'
