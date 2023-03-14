@@ -44,11 +44,15 @@ module Ronin
         # The upstream DNS resolver.
         #
         # @return [Async::DNS::Resolver]
+        #
+        # @api private
         attr_reader :resolver
 
         # The defined rules for the proxy server.
         #
         # @return [Array<Rule>]
+        #
+        # @api private
         attr_reader :rules
 
         #
