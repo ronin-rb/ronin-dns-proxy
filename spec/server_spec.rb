@@ -58,15 +58,15 @@ describe Ronin::DNS::Proxy::Server do
     end
   end
 
-  describe "#add_rule" do
+  describe "#rule" do
     let(:record_type)   { :A }
     let(:record_name)   { 'example.com' }
     let(:record_result) { '10.0.0.1' }
 
     context "when type, name, and result arguments are given" do
       before do
-        subject.add_rule :TXT, 'foo.example.com', '1.2.3.4'
-        subject.add_rule record_type, record_name, record_result
+        subject.rule :TXT, 'foo.example.com', '1.2.3.4'
+        subject.rule record_type, record_name, record_result
       end
 
       it "must append a new Ronin::DNS::Proxy::Rule object to #rules with the type, name, and result arguments" do
@@ -86,8 +86,8 @@ describe Ronin::DNS::Proxy::Server do
         end
 
         before do
-          subject.add_rule :TXT, 'foo.example.com', '1.2.3.4'
-          subject.add_rule(record_type,record_name,&block)
+          subject.rule :TXT, 'foo.example.com', '1.2.3.4'
+          subject.rule(record_type,record_name,&block)
         end
 
         it "must set the rule's result to the given block" do
@@ -101,7 +101,7 @@ describe Ronin::DNS::Proxy::Server do
       context "and no block is given" do
         it do
           expect {
-            subject.add_rule(record_type,record_name)
+            subject.rule(record_type,record_name)
           }.to raise_error(ArgumentError,"must specify a result value or a block")
         end
       end
@@ -119,7 +119,7 @@ describe Ronin::DNS::Proxy::Server do
       let(:rule_result) { '10.0.0.1' }
 
       before do
-        subject.add_rule rule_type, rule_name, rule_result
+        subject.rule rule_type, rule_name, rule_result
       end
 
       it "must return the result from the rule" do
@@ -131,7 +131,7 @@ describe Ronin::DNS::Proxy::Server do
 
     context "when the query does not match any rule" do
       before do
-        subject.add_rule :A, 'will.not.match.example.com', '1.2.3.4'
+        subject.rule :A, 'will.not.match.example.com', '1.2.3.4'
       end
 
       it "must pass through the query to the upstream resolver" do

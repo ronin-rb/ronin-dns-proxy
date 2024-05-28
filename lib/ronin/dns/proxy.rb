@@ -55,8 +55,8 @@ module Ronin
       #   require 'ronin/dns/proxy'
       #
       #   Ronin::DNS::Proxy.run('127.0.0.1', 2346) do |server|
-      #     server.add_rule :A, 'example.com', '10.0.0.1'
-      #     server.add_rule :AAAA, 'example.com', 'dead:beef::1'
+      #     server.rule :A, 'example.com', '10.0.0.1'
+      #     server.rule :AAAA, 'example.com', 'dead:beef::1'
       #   end
       #
       def self.run(host,port,**kwargs,&block)

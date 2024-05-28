@@ -75,13 +75,13 @@ module Ronin
         #
         # @example Initializes a new DNS proxy server:
         #   server = Ronin::DNS::Proxy.new('127.0.0.1', 2346)
-        #   server.add_rule :A, 'example.com', '10.0.0.1'
-        #   server.add_rule :AAAA, 'example.com', 'dead:beef::1'
+        #   server.rule :A, 'example.com', '10.0.0.1'
+        #   server.rule :AAAA, 'example.com', 'dead:beef::1'
         #
         # @example Initializing a new DNS proxy server with a block:
         #   server = Ronin::DNS::Proxy.new('127.0.0.1', 2346) do |server|
-        #     server.add_rule :A, 'example.com', '10.0.0.1'
-        #     server.add_rule :AAAA, 'example.com', 'dead:beef::1'
+        #     server.rule :A, 'example.com', '10.0.0.1'
+        #     server.rule :AAAA, 'example.com', 'dead:beef::1'
         #   end
         #
         # @api public
@@ -101,7 +101,7 @@ module Ronin
 
           if rules
             rules.each do |(record_type,name,result)|
-              add_rule(record_type,name,result)
+              rule(record_type,name,result)
             end
           end
 
@@ -143,19 +143,19 @@ module Ronin
         #   The DNS query transaction object.
         #
         # @example override the IP address for a domain:
-        #   server.add_rule :A, 'example.com', '10.0.0.42'
+        #   server.rule :A, 'example.com', '10.0.0.42'
         #
         # @example return multiple IP addresses:
-        #   server.add_rule :A, 'example.com', ['10.0.0.42', '10.0.0.43']
+        #   server.rule :A, 'example.com', ['10.0.0.42', '10.0.0.43']
         #
         # @example return an error for the given hostname:
-        #   server.add_rule :A, 'updates.example.com', :ServFail
+        #   server.rule :A, 'updates.example.com', :ServFail
         #
         # @example match a query using a regex:
-        #   server.add_rule :TXT, /^spf\./, "v=spf1 include:10.0.0.1 ~all"
+        #   server.rule :TXT, /^spf\./, "v=spf1 include:10.0.0.1 ~all"
         #
         # @example define a dynamic rule:
-        #   server.add_rule(:CNAME, /^www\./) do |type,name,transaction|
+        #   server.rule(:CNAME, /^www\./) do |type,name,transaction|
         #     # append '.hax' to the domain name
         #     names = name.split('.').push('hax')
         #
@@ -164,7 +164,7 @@ module Ronin
         #
         # @api public
         #
-        def add_rule(record_type,name,result=nil,&block)
+        def rule(record_type,name,result=nil,&block)
           unless (result || block)
             raise(ArgumentError,"must specify a result value or a block")
           end
