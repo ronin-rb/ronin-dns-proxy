@@ -55,10 +55,30 @@ module Ronin
         # @param [String, Array<String>, Symbol, #call] result
         #   The result to return.
         #
-        def initialize(type,name,result)
+        # @yield [type, name, transaction]
+        #   If no result argument is given, the given block will be passed the
+        #   DNS query's type, name, and transaction object.
+        #
+        # @yieldparam [Symbol] type
+        #   The query type.
+        #
+        # @yieldparam [String] name
+        #   The queried host name.
+        #
+        # @yieldparam [Async::DNS::Transaction] transaction
+        #   The DNS query transaction object.
+        #
+        # @raise [ArgumentError]
+        #   Must specify a `result` argument or a block.
+        #
+        def initialize(type,name,result=nil,&block)
+          unless (result || block)
+            raise(ArgumentError,"must specify a result value or a block")
+          end
+
           @type   = type
           @name   = name
-          @result = result
+          @result = result || block
         end
 
         #

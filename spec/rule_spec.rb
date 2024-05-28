@@ -20,6 +20,30 @@ describe Ronin::DNS::Proxy::Rule do
     it "must set #result" do
       expect(subject.result).to eq(result)
     end
+
+    context "when no result is given" do
+      context "but a block is given" do
+        let(:block) do
+          proc { |type,name,transaction|
+            transaction.respond!('foo')
+          }
+        end
+
+        subject { described_class.new(type,name,&block) }
+
+        it "must set #result to the block" do
+          expect(subject.result).to be(block)
+        end
+      end
+
+      context "but a block is not given" do
+        it do
+          expect {
+            described_class.new(type,name)
+          }.to raise_error(ArgumentError,"must specify a result value or a block")
+        end
+      end
+    end
   end
 
   describe "#matches?" do

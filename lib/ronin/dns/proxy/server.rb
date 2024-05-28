@@ -117,7 +117,7 @@ module Ronin
         # @param [String, Regexp] name
         #   The record name that the rule will match against.
         #
-        # @param [String, Array<String>, Symbol, Proc<Symbol, String, Async::DNS::Transaction>] result
+        # @param [String, Array<String>, Symbol, #call] result
         #   The result to respond with. It can be a String, or an Array of
         #   Strings, or an error code:
         #
@@ -129,8 +129,18 @@ module Ronin
         #   * `:Refused` - The operation was refused by the server.
         #   * `:NotAuth` - The server is not authoritive for the zone.
         #
-        #   If a `Proc` is given, then it will be called with the query type,
-        #   query name, and the DNS query transaction object.
+        # @yield [type, name, transaction]
+        #   If no result argument is given, the given block will be passed the
+        #   DNS query's type, name, and transaction object.
+        #
+        # @yieldparam [Symbol] type
+        #   The query type.
+        #
+        # @yieldparam [String] name
+        #   The queried host name.
+        #
+        # @yieldparam [Async::DNS::Transaction] transaction
+        #   The DNS query transaction object.
         #
         # @example override the IP address for a domain:
         #   server.add_rule :A, 'example.com', '10.0.0.42'
@@ -145,17 +155,21 @@ module Ronin
         #   server.add_rule :TXT, /^spf\./, "v=spf1 include:10.0.0.1 ~all"
         #
         # @example define a dynamic rule:
-        #   server.add_rule :CNAME, /^www\./, ->(type,name,transaction) {
+        #   server.add_rule(:CNAME, /^www\./) do |type,name,transaction|
         #     # append '.hax' to the domain name
         #     names = name.split('.').push('hax')
         #
         #     transaction.respond!(names)
-        #   }
+        #   end
         #
         # @api public
         #
-        def add_rule(record_type,name,result)
-          @rules << Rule.new(record_type,name,result)
+        def add_rule(record_type,name,result=nil,&block)
+          unless (result || block)
+            raise(ArgumentError,"must specify a result value or a block")
+          end
+
+          @rules << Rule.new(record_type,name,result,&block)
         end
 
         # Mapping of Resolv resource classes to Symbols.

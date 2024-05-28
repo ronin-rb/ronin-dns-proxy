@@ -63,16 +63,48 @@ describe Ronin::DNS::Proxy::Server do
     let(:record_name)   { 'example.com' }
     let(:record_result) { '10.0.0.1' }
 
-    before do
-      subject.add_rule :TXT, 'foo.example.com', '1.2.3.4'
-      subject.add_rule record_type, record_name, record_result
+    context "when type, name, and result arguments are given" do
+      before do
+        subject.add_rule :TXT, 'foo.example.com', '1.2.3.4'
+        subject.add_rule record_type, record_name, record_result
+      end
+
+      it "must append a new Ronin::DNS::Proxy::Rule object to #rules with the type, name, and result arguments" do
+        expect(subject.rules.last).to be_kind_of(Ronin::DNS::Proxy::Rule)
+        expect(subject.rules.last.type).to eq(record_type)
+        expect(subject.rules.last.name).to eq(record_name)
+        expect(subject.rules.last.result).to eq(record_result)
+      end
     end
 
-    it "must append a new Ronin::DNS::Proxy::Rule object to #rules" do
-      expect(subject.rules.last).to be_kind_of(Ronin::DNS::Proxy::Rule)
-      expect(subject.rules.last.type).to eq(record_type)
-      expect(subject.rules.last.name).to eq(record_name)
-      expect(subject.rules.last.result).to eq(record_result)
+    context "when no result argument is given" do
+      context "but a block is given" do
+        let(:block) do
+          proc { |type,name,transaction|
+            transaction.respond!('foo')
+          }
+        end
+
+        before do
+          subject.add_rule :TXT, 'foo.example.com', '1.2.3.4'
+          subject.add_rule(record_type,record_name,&block)
+        end
+
+        it "must set the rule's result to the given block" do
+          expect(subject.rules.last).to be_kind_of(Ronin::DNS::Proxy::Rule)
+          expect(subject.rules.last.type).to eq(record_type)
+          expect(subject.rules.last.name).to eq(record_name)
+          expect(subject.rules.last.result).to be(block)
+        end
+      end
+
+      context "and no block is given" do
+        it do
+          expect {
+            subject.add_rule(record_type,record_name)
+          }.to raise_error(ArgumentError,"must specify a result value or a block")
+        end
+      end
     end
   end
 

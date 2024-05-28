@@ -44,17 +44,17 @@ Ronin::DNS::Proxy.run('127.0.0.1', 2346) do |server|
   server.add_rule :A, 'updates.example.com', :ServFail
 
   # define a dynamic rule
-  server.add_rule :CNAME, /^www\./, ->(type,name,transaction) {
+  server.add_rule(:CNAME, /^www\./) do |type,name,transaction|
     # append '.hax' to the domain name
     names = name.split('.').push('hax')
 
     transaction.respond!(names)
-  }
+  end
 
   # return MX records
-  server.add_rule :MX, 'example.com', ->(type,name,transaction) {
+  server.add_rule(:MX, 'example.com') do |type,name,transaction|
     transaction.respond!(10, Resolv::DNS::Name.create('email.evil.com' ))
-  }
+  end
 end
 ```
 
