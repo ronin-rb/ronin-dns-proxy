@@ -13,7 +13,7 @@
 ## Description
 
 ronin-dns-proxy is a configurable DNS proxy server library. It supports
-reutrning spoofing DNS results or passing DNS queries through to the upstream
+returning spoofing DNS results or passing DNS queries through to the upstream
 DNS nameserver.
 
 ## Features
