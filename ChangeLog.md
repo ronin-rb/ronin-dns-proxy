@@ -1,4 +1,4 @@
-### 0.1.0 / 2024-XX-XX
+### 0.1.0 / 2024-07-22
 
 * Initial release:
   * Supports returning spoofed results to specific DNS queries.
