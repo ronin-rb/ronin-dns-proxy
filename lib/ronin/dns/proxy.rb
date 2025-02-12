@@ -18,7 +18,7 @@
 # along with ronin-dns-proxy.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-require 'ronin/dns/proxy/server'
+require_relative 'proxy/server'
 
 module Ronin
   module DNS
